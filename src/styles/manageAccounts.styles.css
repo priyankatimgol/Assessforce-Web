@@ -1,0 +1,118 @@
+.appbar-menu {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  gap: 0.4rem;
+  align-items: center;
+  padding: 0.75rem 0.625rem;
+}
+
+.appbar-menu .appbar-menu-items {
+  width: 2.2rem;
+  height: 2.2rem;
+  padding: 0.313rem;
+  cursor: pointer;
+  object-fit: contain;
+}
+
+.appbar-menu .appbar-menu-items:hover {
+  border-radius: 100%;
+}
+
+.appbar-menu .appbar-menu-mode {
+  object-fit: contain;
+}
+
+.appbar-lm-item {
+  display: flex;
+  padding: 0.125rem 0.625rem;
+  align-items: flex-start;
+  gap: 0.625rem;
+}
+
+.appbar-lm-item .appbar-lm-text {
+  color: var(--black-color) !important;
+  font-family: inter-regular !important;
+  font-size: 0.9rem;
+  font-weight: 400;
+  line-height: 1.25rem;
+}
+
+.ua-dashboard-card {
+  margin-bottom: 2rem;
+}
+
+.ua-kpi-cards {
+  display: flex;
+  padding: 0px 16px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  flex: 1 0 0;
+}
+
+.ua-kpi-cards .ua-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ua-card .ua-img-cnt {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ua-kpi-cards .ua-user-img {
+  width: 1.875;
+  height: 1.875;
+  object-fit: contain;
+}
+
+.ac-status {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* .default-uc {
+  margin-top: -0.4rem !important;
+  font-size: 0.8rem !important;
+  font-family: inter-regular !important;
+} */
+
+.MuiAutocomplete-hasPopupIcon.css-1wzrloz-MuiAutocomplete-root .MuiOutlinedInput-root,
+.MuiAutocomplete-hasClearIcon.css-1wzrloz-MuiAutocomplete-root .MuiOutlinedInput-root {
+  height: 2.563rem;
+}
+
+.ma-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media (max-width: 899px) and (min-width: 768px) {
+  .ua-dashboard-card {
+    display: flex;
+    flex-wrap: nowrap;
+  }
+  .ua-kpi-cards {
+    width: 290px;
+  }
+}
+
+@media (max-width: 767px) and (min-width: 350px) {
+  .ua-dashboard-card {
+    display: flex;
+    flex-wrap: nowrap;
+  }
+  .ua-kpi-cards {
+    width: 290px;
+  }
+  .ma-title {
+    display: flex;
+    align-items: start;
+    flex-direction: column;
+  }
+}

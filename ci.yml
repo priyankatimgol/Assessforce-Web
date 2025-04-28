@@ -1,0 +1,80 @@
+name: React CI/CD
+
+on:
+  push:
+    branches:
+      - developement
+  pull_request:
+    branches:
+      - developement
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+
+      - name: Verify build directory
+        run: |
+          if [ ! -d "dist" ]; then
+            echo "Build directory 'dist' not found!"
+            exit 1
+          fi
+
+      - name: Ensure SSH Directory and Known Hosts
+        env:
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ secrets.REMOTE_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Prepare Remote Server for SCP
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_PATH: ${{ secrets.REMOTE_PATH }}
+          SUDO_PASSWORD: ${{ secrets.SUDO_PASSWORD }}
+        run: |
+          echo "$SSH_PRIVATE_KEY" | tr -d '\r' > id_rsa
+          chmod 600 id_rsa
+          ssh -i id_rsa -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "
+            echo '${{ secrets.SUDO_PASSWORD }}' | sudo -S mkdir -p ${{ secrets.REMOTE_PATH }} &&
+            echo '${{ secrets.SUDO_PASSWORD }}' | sudo -S chown -R ${{ secrets.REMOTE_USER }}:${{ secrets.REMOTE_USER }} ${{ secrets.REMOTE_PATH }} &&
+            echo '${{ secrets.SUDO_PASSWORD }}' | sudo -S chmod -R 775 ${{ secrets.REMOTE_PATH }}
+          "
+
+      - name: Compress Build Files
+        run: tar -czf build.tar.gz dist
+
+      - name: Deploy to Remote Server and Set Permissions
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SUDO_PASSWORD: ${{ secrets.SUDO_PASSWORD }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_PATH: ${{ secrets.REMOTE_PATH }}
+        run: |
+          scp -i id_rsa -C -v build.tar.gz ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:${{ secrets.REMOTE_PATH }}/build.tar.gz
+          ssh -i id_rsa -o StrictHostKeyChecking=no ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }} "
+            cd ${{ secrets.REMOTE_PATH }} &&
+            echo '${{ secrets.SUDO_PASSWORD }}' | sudo -S chmod -R 775 ${{ secrets.REMOTE_PATH }} &&
+            tar --overwrite -xzf build.tar.gz &&
+            rm build.tar.gz &&
+            echo '${{ secrets.SUDO_PASSWORD }}' | sudo -S chown -R www-data:www-data ${{ secrets.REMOTE_PATH }} &&
+            echo '${{ secrets.SUDO_PASSWORD }}' | sudo -S chmod -R 755 ${{ secrets.REMOTE_PATH }} &&
+            echo '${{ secrets.SUDO_PASSWORD }}' | sudo -S docker-compose -f /usr/local/src/devops/docker-compose.yml restart nginx
+          "

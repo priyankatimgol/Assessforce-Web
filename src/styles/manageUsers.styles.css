@@ -1,0 +1,138 @@
+.appbar-menu {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  gap: 0.4rem;
+  align-items: center;
+  padding: 0.75rem 0.625rem;
+}
+
+.appbar-menu .appbar-menu-items {
+  width: 2.2rem;
+  height: 2.2rem;
+  padding: 0.313rem;
+  cursor: pointer;
+  object-fit: contain;
+}
+
+.appbar-menu .appbar-menu-items:hover {
+  border-radius: 100%;
+}
+
+.appbar-menu .appbar-menu-mode {
+  object-fit: contain;
+}
+
+.appbar-drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  width: 100%;
+}
+
+.appbar-lm-item {
+  display: flex;
+  padding: 0.125rem 0.625rem;
+  align-items: flex-start;
+  gap: 0.625rem;
+}
+
+.appbar-lm-item .appbar-lm-text {
+  color: var(--black-color) !important;
+  font-family: inter-regular !important;
+  font-size: 0.9rem;
+  font-weight: 400;
+  line-height: 1.25rem;
+}
+
+.dashboard-card .mu-kpi-card {
+  display: flex;
+  padding: 14px 16px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  flex: 1 0 0;
+  box-shadow: none;
+  min-width: 130px;
+}
+
+.mu-kpi-card .kip-ic {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.mu-kpi-card .MuiCardContent-root:last-child {
+  padding: 0px !important;
+}
+
+.mu-kpi-card .MuiCardContent-root {
+  padding: 0px !important;
+}
+
+.mu-kpi-card .user-img {
+  width: 1.875;
+  height: 1.875;
+  object-fit: contain;
+}
+
+.MuiAutocomplete-hasPopupIcon.css-1wzrloz-MuiAutocomplete-root .MuiOutlinedInput-root,
+.MuiAutocomplete-hasClearIcon.css-1wzrloz-MuiAutocomplete-root .MuiOutlinedInput-root {
+  height: 2.563rem;
+}
+
+.muViewUserContainer {
+  margin-left: 0.1rem !important;
+  margin-top: 0.5rem !important;
+}
+
+.kpi-dashboard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cursor-not-allowed {
+  cursor: not-allowed;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 1065px) and (min-width: 768px) {
+  /* .dashboard-card {
+    display: flex;
+    flex-wrap: nowrap;
+  } */
+  .create-user {
+    margin-top: 16px !important;
+  }
+  .view-modal-content {
+    color: var(--text-secondary-color) !important;
+    margin-top: 16px !important;
+  }
+  /* .dashboard-card .mu-kpi-card {
+    width: 10rem;
+  } */
+}
+
+@media (max-width: 767px) and (min-width: 350px) {
+  /* .dashboard-card {
+    display: flex;
+    flex-wrap: nowrap;
+  } */
+  .kpi-dashboard {
+    display: block;
+  }
+  .create-user {
+    margin-top: 16px !important;
+  }
+  .view-modal-content {
+    color: var(--text-secondary-color) !important;
+    margin-top: 16px !important;
+  }
+  /* .dashboard-card .mu-kpi-card {
+    width: 10rem;
+  } */
+}
